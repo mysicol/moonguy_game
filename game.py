@@ -1,8 +1,8 @@
 import os
+os.system("pip install -r src/requirements.txt")
+
 import pygame
 from src.moonguy import Moonguy
-
-os.system("pip install -r src/requirements.txt")
 
 width = 250
 height = 500
