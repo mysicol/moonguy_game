@@ -1,5 +1,8 @@
+import os
 import pygame
-from moonguy import Moonguy
+from src.moonguy import Moonguy
+
+os.system("pip install -r src/requirements.txt")
 
 width = 250
 height = 500
@@ -16,12 +19,12 @@ moonguy = Moonguy(screen, grass_height)
 clock = pygame.time.Clock()
 fps = 60
 
-circle = pygame.image.load('images/moon.png')
+circle = pygame.image.load('src/images/moon.png')
 circles = []
 circle_count = 0
 max_circles = 100
 
-instructions = pygame.image.load('images/instructions.png')
+instructions = pygame.image.load('src/images/instructions.png')
 
 while True:
     for event in pygame.event.get():

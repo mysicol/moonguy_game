@@ -4,7 +4,7 @@ class Moonguy:
     def __init__(self, screen, ground_height):
         self.__screen = screen
 
-        self.__sprite = pygame.image.load('images/moonguy.png')
+        self.__sprite = pygame.image.load('src/images/moonguy.png')
 
         self.__height = self.__sprite.get_height()
         self.__width = self.__sprite.get_width()
