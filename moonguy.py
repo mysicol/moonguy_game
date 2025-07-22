@@ -4,7 +4,7 @@ class Moonguy:
     def __init__(self, screen, ground_height):
         self.__screen = screen
 
-        self.__sprite = pygame.image.load('moonguy.png')
+        self.__sprite = pygame.image.load('images/moonguy.png')
 
         self.__height = self.__sprite.get_height()
         self.__width = self.__sprite.get_width()
@@ -33,14 +33,36 @@ class Moonguy:
 
         self.__collision_elasticity = 0.8
 
+        self.__jump_acc = 2
+        self.__run_acc = 0.3
+
+    def get_location(self):
+        return (self.__x_pos, self.__y_pos)
+    
+    def get_size(self):
+        return (self.__width, self.__height)
+    
+    def jump(self):
+        if self.__on_ground():
+            self.__accelerate(0, -self.__jump_acc)
+
+    def run_right(self):
+        self.__accelerate(0.3, 0)
+
+    def run_left(self):
+        self.__accelerate(-0.3, 0)
+
     def do_physics_frame(self):
-        if self.on_ground():
+        if self.__on_ground():
             self.__do_friction()
         self.__do_gravity()
 
         self.__acceleration_checks()
         self.__speed_up(self.__x_acc, self.__y_acc)
         self.__move(self.__x_vel, self.__y_vel)
+    
+    def draw(self):
+        self.__screen.blit(self.__sprite, (self.__x_pos, self.__y_pos))
 
     def __do_friction(self):
         if abs(self.__x_acc) > self.__friction:
@@ -59,29 +81,29 @@ class Moonguy:
         if self.__y_acc < 0:
             self.__y_acc += self.__gravity
 
-    def accelerate(self, x_del, y_del):
+    def __accelerate(self, x_del, y_del):
         self.__x_acc += x_del
         self.__y_acc += y_del
 
     def __acceleration_checks(self):
-        if self.on_ground() and self.__y_acc > 0:
+        if self.__on_ground() and self.__y_acc > 0:
             self.__y_acc = 0
         if abs(self.__x_acc) > self.__max_acc:
             self.__x_acc = self.__max_acc * (abs(self.__x_acc) / self.__x_acc)
-        if (self.at_left_wall() and self.__x_acc < 0) or (self.at_right_wall() and self.__x_acc > 0):
+        if (self.__at_left_wall() and self.__x_acc < 0) or (self.__at_right_wall() and self.__x_acc > 0):
             self.__x_acc = 0
 
     def __speed_up(self, x_del, y_del):
         self.__x_vel += x_del
         self.__y_vel += y_del
 
-        if self.on_ground() and self.__y_vel > 0:
+        if self.__on_ground() and self.__y_vel > 0:
             self.__y_vel = 0
         if abs(self.__x_vel) < self.__friction / 20:
             self.__x_vel = 0
         if abs(self.__x_vel) > self.__max_vel:
             self.__x_vel = self.__max_vel * (abs(self.__x_vel) / self.__x_vel)
-        if (self.at_left_wall() and self.__x_vel < 0) or (self.at_right_wall() and self.__x_vel > 0):
+        if (self.__at_left_wall() and self.__x_vel < 0) or (self.__at_right_wall() and self.__x_vel > 0):
             self.__x_vel = - self.__x_vel * self.__collision_elasticity
 
     def __move(self, x_del, y_del):
@@ -93,28 +115,25 @@ class Moonguy:
         if self.__x_pos < self.__min_width:
             self.__x_pos = self.__min_width
 
-    def appear(self):
-        self.__screen.blit(self.__sprite, (self.__x_pos, self.__y_pos))
-
-    def on_ground(self):
+    def __on_ground(self):
         if self.__y_pos >= self.__max_height:
             return True
         return False
     
-    def at_right_wall(self):
+    def __at_right_wall(self):
         if self.__x_pos >= self.__max_width:
             return True
         return False
     
-    def at_left_wall(self):
+    def __at_left_wall(self):
         if self.__x_pos <= self.__min_width:
             return True
         return False
     
-    def at_wall(self):
-        return self.at_left_wall() or self.at_right_wall()
+    def __at_wall(self):
+        return self.__at_left_wall() or self.__at_right_wall()
     
-    def on_screen(self):
+    def __on_screen(self):
         if self.__y_pos > self.__min_height:
             return True
         return False

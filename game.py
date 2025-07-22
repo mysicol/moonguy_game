@@ -16,27 +16,49 @@ moonguy = Moonguy(screen, grass_height)
 clock = pygame.time.Clock()
 fps = 60
 
+circle = pygame.image.load('images/moon.png')
+circles = []
+circle_count = 0
+max_circles = 100
+
+instructions = pygame.image.load('images/instructions.png')
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             end_game = True
             break
-        if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
-            if moonguy.on_ground():
-                moonguy.accelerate(0, -2)
+        if event.type == pygame.KEYDOWN:
+            if (event.key == pygame.K_UP):
+                moonguy.jump()
+            if (event.key == pygame.K_x):
+                circles = []
+                circle_count = 0
 
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_RIGHT]:
-        moonguy.accelerate(0.3, 0)
+        moonguy.run_right()
     if keys[pygame.K_LEFT]:
-        moonguy.accelerate(-0.3, 0)
-    
+        moonguy.run_left()
+    if keys[pygame.K_c]:
+        circles.append(moonguy.get_location())
+        if circle_count > max_circles:
+            circles.pop(0)
+        else:
+            circle_count += 1
+
+    moonguy.do_physics_frame()
+
     screen.fill((50, 50, 50))
     pygame.draw.rect(screen, (117, 91, 26), rect)
 
-    moonguy.do_physics_frame()
-    moonguy.appear()
+    for circle_location in circles:
+        screen.blit(circle, circle_location)
+
+    screen.blit(instructions, (0, 0))
+
+    moonguy.draw()
 
     if end_game:
         break
