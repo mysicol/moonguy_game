@@ -64,6 +64,12 @@ class Moonguy:
     def draw(self):
         self.__screen.blit(self.__sprite, (self.__x_pos, self.__y_pos))
 
+    def increase_max_speed(self):
+        self.__max_vel *= 2
+
+    def decrease_max_speed(self):
+        self.__max_vel /= 2
+
     def __do_friction(self):
         if abs(self.__x_acc) > self.__friction:
             self.__stopping = False

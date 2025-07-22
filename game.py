@@ -34,6 +34,11 @@ while True:
             if (event.key == pygame.K_x):
                 circles = []
                 circle_count = 0
+            if (event.key == pygame.K_LSHIFT):
+                moonguy.increase_max_speed()
+        if event.type == pygame.KEYUP:
+            if (event.key == pygame.K_LSHIFT):
+                moonguy.decrease_max_speed()
 
     keys = pygame.key.get_pressed()
 
