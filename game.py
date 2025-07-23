@@ -3,8 +3,9 @@ os.system("pip install -r src/requirements.txt")
 
 import pygame
 from src.moonguy import Moonguy
+from src.enemy import Enemy
 
-width = 250
+width = 500
 height = 500
 grass_height = int(height * 0.2)
 
@@ -25,6 +26,9 @@ circle_count = 0
 max_circles = 100
 
 instructions = pygame.image.load('src/images/instructions.png')
+
+enemies = [Enemy(screen, grass_height, width / 2)]
+enemies.append(Enemy(screen, grass_height, width / 4))
 
 while True:
     for event in pygame.event.get():
@@ -65,6 +69,11 @@ while True:
         screen.blit(circle, circle_location)
 
     screen.blit(instructions, (0, 0))
+
+    for enemy in enemies:
+        enemy.do_physics_frame()
+        enemy.run_right()
+        enemy.draw()
 
     moonguy.draw()
 

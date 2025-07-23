@@ -1,20 +1,20 @@
 import pygame
 
 class Moonguy:
-    def __init__(self, screen, ground_height):
+    def __init__(self, screen, ground_height, x_pos = 0):
         self.__screen = screen
 
-        self.__sprite = pygame.image.load('src/images/moonguy.png')
+        self._sprite = pygame.image.load('src/images/moonguy.png')
 
-        self.__height = self.__sprite.get_height()
-        self.__width = self.__sprite.get_width()
+        self.__height = self._sprite.get_height()
+        self.__width = self._sprite.get_width()
 
         self.__max_height = screen.get_height() - ground_height - self.__height
-        self.__max_width = screen.get_width() - self.__sprite.get_width()
+        self.__max_width = screen.get_width() - self._sprite.get_width()
         self.__min_width = 0
         self.__min_height = 0
 
-        self.__x_pos = 0
+        self.__x_pos = x_pos
         self.__y_pos = self.__max_height
 
         self.__x_vel = 0
@@ -34,7 +34,6 @@ class Moonguy:
         self.__collision_elasticity = 0.8
 
         self.__jump_acc = 2
-        self.__run_acc = 0.3
 
     def get_location(self):
         return (self.__x_pos, self.__y_pos)
@@ -62,7 +61,7 @@ class Moonguy:
         self.__move(self.__x_vel, self.__y_vel)
     
     def draw(self):
-        self.__screen.blit(self.__sprite, (self.__x_pos, self.__y_pos))
+        self.__screen.blit(self._sprite, (self.__x_pos, self.__y_pos))
 
     def increase_max_speed(self):
         self.__max_vel *= 2
