@@ -83,6 +83,14 @@ class PhysicsGuy:
         if (abs(x - self.__x_pos) < max(self.__width, width) / 1.5) and (abs(y - self.__y_pos) < max(self.__height, height) / 1.5):
             return True
         return False
+    
+    def reset(self, x, y):
+        self.__x_pos = x
+        self.__y_pos = y
+        self.__x_vel = 0
+        self.__y_vel = 0
+        self.__x_acc = 0
+        self.__y_acc = 0
 
     def __do_friction(self):
         if abs(self.__x_acc) > self.__friction:
