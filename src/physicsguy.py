@@ -1,7 +1,7 @@
 import pygame
 
 class PhysicsGuy:
-    def __init__(self, screen, ground_height, x_pos, sprite, walk_acc, jump_acc):
+    def __init__(self, screen, ground_height=0, sprite=None, walk_acc=None, jump_acc=None, x_pos=None, y_pos=None):
         self.__screen = screen
 
         self.__sprite = pygame.image.load(sprite)
@@ -14,8 +14,14 @@ class PhysicsGuy:
         self.__min_width = 0
         self.__min_height = 0
 
-        self.__x_pos = x_pos
-        self.__y_pos = self.__max_height
+        if x_pos:
+            self.__x_pos = x_pos
+        else:
+            self.__x_pos = 0
+        if y_pos:
+            self.__y_pos = y_pos
+        else:
+            self.__y_pos = self.__max_height
 
         self.__x_vel = 0
         self.__y_vel = 0
@@ -69,6 +75,14 @@ class PhysicsGuy:
 
     def decrease_max_speed(self):
         self.__max_vel /= 2
+
+    def check_collisions(self, other):
+        width, height = other.get_size()
+        x, y = other.get_location()
+
+        if (abs(x - self.__x_pos) < max(self.__width, width) / 1.5) and (abs(y - self.__y_pos) < max(self.__height, height) / 1.5):
+            return True
+        return False
 
     def __do_friction(self):
         if abs(self.__x_acc) > self.__friction:
