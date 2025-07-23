@@ -2,7 +2,7 @@
 
 You are stupid if you cannot figure out how to play this game.
 
-also you can run now (press shift)
+^ is what I would have said before I actually made it be a game. Press 'h' for help.
 
 ## Instructions
 
